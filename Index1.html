@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>An Evening of Honor & Gratitude</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0d0d0d, #1a0033);
+      color: #fff;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: gold;
+    }
+    .card {
+      max-width: 600px;
+      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+    .options button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #6600cc;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .options button:hover {
+      background: gold;
+      color: #000;
+    }
+    #gallery img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin: 10px;
+    }
+    #verifySection {
+      text-align: center;
+      margin-top: 30px;
+    }
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      width: 60%;
+      margin-bottom: 10px;
+    }
+    #personalInvite {
+      display: none;
+      margin-top: 20px;
+    }
+    #inviteText {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: gold;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease forwards, glow 2s infinite alternate;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px gold, 0 0 20px #ffcc00; }
+      to { text-shadow: 0 0 20px #ffcc00, 0 0 40px gold; }
+    }
+    .photo-card-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .photo-card-row img {
+      width: 200px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+    .personalCard {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .personalCard img {
+      width: 200px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+    .common-invitation-card {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    .common-invitation-card img {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+    }
+    #confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Ek Shaam – dedicated to our Ustaadon ke Naam …<br />
+    An Evening of Honor & Gratitude
+  </header>
+
+  <div class="card" id="q1">
+    <p>Do you know why you are here on this page?</p>
+    <div class="options">
+      <button onclick="showQ2()">Yes</button>
+      <button onclick="showQ2()">No</button>
+    </div>
+  </div>
+
+  <div class="card" id="q2" style="display:none">
+    <p>So let me tell you... We are the first batch of yours... Hope so you remembered us 🤭</p>
+    <div class="options">
+      <button onclick="showQ3()">Of course, never forget!</button>
+      <button onclick="showQ3()">Hmm… remind us again 😅</button>
+    </div>
+  </div>
+
+  <div class="card" id="q3" style="display:none">
+    <p>How about a meet-up? … So yes, here we are again. To celebrate YOU ❤️</p>
+    <button onclick="showInvite()">Proceed</button>
+  </div>
+
+  <div class="card" id="invite" style="display:none">
+    <h2>With respect and gratitude, we cordially invite you</h2>
+    <p>to an evening of honor and celebration dedicated to our esteemed teachers.</p>
+    <div id="gallery">
+      <img src="Teachers1.jpg" alt="Staff">
+      <img src="Teachers2.jpg" alt="Staff">
+    </div>
+    <div id="verifySection">
+      <p>To verify yourself, enter your first name:</p>
+      <input type="text" id="nameInput" placeholder="Enter name" />
+      <br />
+      <button onclick="verifyName()">Submit</button>
+    </div>
+
+    <div id="personalInvite">
+      <div id="inviteText"></div>
+
+      <!-- TEACHER PHOTO + PERSONAL CARD -->
+      <div class="photo-card-row">
+        <img id="teacherImg" src="" alt="Teacher Photo" />
+        <div class="personalCard">
+          <img id="personalCardImg" src="" alt="Personal Card" />
+        </div>
+      </div>
+
+      <!-- COMMON INVITATION CARD -->
+      <div class="common-invitation-card">
+        <img src="Formal_invitation.jpg" alt="Invitation Card" />
+      </div>
+    </div>
+  </div>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <script>
+    function showQ2(){ 
+      document.getElementById('q1').style.display='none'; 
+      document.getElementById('q2').style.display='block'; 
+    }
+    function showQ3(){ 
+      document.getElementById('q2').style.display='none'; 
+      document.getElementById('q3').style.display='block'; 
+    }
+    function showInvite(){ 
+      document.getElementById('q3').style.display='none'; 
+      document.getElementById('invite').style.display='block'; 
+    }
+
+    const invited = [
+      {name:["asim"], img:"Asim_sir.png", personalCard:"Asim_sir_card.jpg"},
+      {name:["arbaz","arbaaz","arbaj","arbaaj"], img:"Arbaz_Sir.jpg", personalCard:"Arbaz_sir_card.jpg"},
+      {name:["zikriya"], img:"Zikriya_miss.png", personalCard:"Zikriya_mam_card.jpg"},
+      {name:["misba","misbha"], img:"Misba_miss.png", personalCard:"Misba_miss_card.jpg"},
+      {name:["rehan"], img:"Rehan.jpg", personalCard:"Rehan_card.jpg"},
+      {name:["arshad","arshaad"], img:"Arshad_sir.jpg", personalCard:"Arshad_sir_card.jpg"},
+      {name:["samina"], img:"Samina.png", personalCard:"Samina_card.jpg"}
+    ];
+
+    function verifyName(){
+      const input = document.getElementById('nameInput').value.trim().toLowerCase();
+      let found = null;
+      invited.forEach(t => {
+        if(t.name.includes(input)){
+          found = t;
+        }
+      });
+      if(found){
+        document.getElementById('inviteText').innerText = " You are Heartly Invited ❤️";
+        document.getElementById('teacherImg').src = found.img;
+        document.getElementById('personalCardImg').src = found.personalCard;
+        document.getElementById('personalInvite').style.display = 'block';
+        launchConfetti();
+      } else {
+        alert("Name not recognized. Please try again.");
+      }
+    }
+
+    // Confetti effect
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    let confetti = [];
+    resize();
+    window.addEventListener('resize', resize);
+
+    function resize(){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    function launchConfetti(){
+      confetti = [];
+      for(let i=0;i<200;i++){
+        confetti.push({
+          x:Math.random()*canvas.width,
+          y:Math.random()*canvas.height,
+          r:Math.random()*6+2,
+          dx:Math.random()*4-2,
+          dy:Math.random()*4+2
+        });
+      }
+      requestAnimationFrame(update);
+    }
+    function update(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      confetti.forEach(c=>{
+        ctx.beginPath();
+        ctx.arc(c.x,c.y,c.r,0,Math.PI*2);
+        ctx.fillStyle = 'hsl('+Math.random()*360+',100%,50%)';
+        ctx.fill();
+        c.x += c.dx;
+        c.y += c.dy;
+        if(c.y>canvas.height) c.y=0;
+        if(c.x>canvas.width) c.x=0;
+      });
+      requestAnimationFrame(update);
+    }
+  </script>
+</body>
+</html>
